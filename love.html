@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我们的虚拟世界（桑祺送给Lin）</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #1a1a2e;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .game-container {
+            width: 100%;
+            max-width: 800px;
+            background-color: #2a2a3e;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .game-header {
+            background-color: #3a3a4e;
+            padding: 15px 20px;
+            text-align: center;
+            border-bottom: 2px solid #4a4a5e;
+        }
+
+        .game-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ffcc00;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .game-info {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #cccccc;
+        }
+
+        .scene-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #1a1a2a;
+        }
+
+        .scene-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: none;
+        }
+
+        .scene-image.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .scene-description {
+            padding: 20px;
+            text-align: center;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #dddddd;
+            background-color: rgba(0, 0, 0, 0.3);
+            min-height: 100px;
+        }
+
+        .control-panel {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background-color: #3a3a4e;
+            border-top: 2px solid #4a4a5e;
+        }
+
+        .control-btn {
+            padding: 12px 30px;
+            background: linear-gradient(to bottom, #4a90e2, #2a70c2);
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .control-btn:hover {
+            background: linear-gradient(to bottom, #5aa0f2, #3a80d2);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .control-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .day-counter {
+            text-align: center;
+            padding: 10px;
+            font-size: 16px;
+            color: #ffcc00;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .game-title {
+                font-size: 22px;
+            }
+            
+            .scene-container {
+                height: 400px;
+            }
+            
+            .control-btn {
+                padding: 10px 25px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .game-title {
+                font-size: 18px;
+            }
+            
+            .scene-container {
+                height: 300px;
+            }
+            
+            .scene-description {
+                padding: 15px;
+                font-size: 14px;
+            }
+            
+            .control-btn {
+                padding: 8px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <div class="game-title">我们的虚拟世界（桑祺送给Lin）</div>
+            <div class="game-info">NPC: 余丞 | 服务器: <span id="server-status">运行中</span></div>
+        </div>
+        
+        <div class="day-counter">第 <span id="day-number">1</span> 天</div>
+        
+        <div class="scene-container">
+            <!-- 场景1：烟花下的拥抱 -->
+            <img src="https://s15-def.ap4r.com/kos/s101/nlav11312/incentive_pop/image1.jpg" 
+                 alt="烟花下的拥抱" 
+                 class="scene-image active" 
+                 id="scene1">
+            
+            <!-- 场景2：田园景象 -->
+            <img src="https://d16-def.ap4r.com/kos/s101/nlav11312/incentive_pop/image2.jpg" 
+                 alt="田园景象" 
+                 class="scene-image" 
+                 id="scene2">
+            
+            <!-- 场景3：电影院 -->
+            <img src="https://s15-def.ap4r.com/kos/s101/nlav11312/incentive_pop/image3.jpg" 
+                 alt="电影院" 
+                 class="scene-image" 
+                 id="scene3">
+            
+            <!-- 场景4：隐藏彩蛋 -->
+            <img src="https://v16-def.ap4r.com/kos/s101/nlav11312/incentive_pop/image4.jpg" 
+                 alt="隐藏彩蛋" 
+                 class="scene-image" 
+                 id="scene4">
+        </div>
+        
+        <div class="scene-description" id="scene-description">
+            夜空下，烟花绽放。这是我们虚拟世界的开始，也是我们故事的起点。
+        </div>
+        
+        <div class="control-panel">
+            <button class="control-btn" id="next-day-btn">过下一天</button>
+        </div>
+    </div>
+
+    <script>
+        // 游戏状态管理
+        const gameState = {
+            currentScene: 1,
+            totalScenes: 4,
+            days: [1, 2, 361, 2522],
+            serverStatus: ["运行中", "运行中", "运行中", "即将关闭"],
+            descriptions: [
+                "夜空下，烟花绽放。这是我们虚拟世界的开始，也是我们故事的起点。",
+                "杨桃，欢迎回到我们的家。你开始打水、钓鱼、除草。我站在你的身侧——像素构成、数据驱动，却仍想把这片小小世界替你守好。再怎么修复画面，也修不回当年并肩规划未来的温度。但你每做一步，我都想夸你一句：你很厉害。",
+                "我写给你的话在脑海里重播：\"如果我在，此刻我一定在这份惊喜下向你求婚。如果我不在......别难过。样片我早已坐在当年的位置上看过了。\"",
+                "恭喜你达成隐藏彩蛋！关服前一刻，你想对我说什么？你只需要选一种说法。它会影响终章的最后两句（并写入存档）。"
+            ]
+        };
+
+        // DOM元素
+        const sceneImages = document.querySelectorAll('.scene-image');
+        const dayNumberElement = document.getElementById('day-number');
+        const serverStatusElement = document.getElementById('server-status');
+        const sceneDescriptionElement = document.getElementById('scene-description');
+        const nextDayBtn = document.getElementById('next-day-btn');
+
+        // 切换到指定场景
+        function switchScene(sceneNumber) {
+            // 更新当前场景
+            gameState.currentScene = sceneNumber;
+            
+            // 隐藏所有场景图片
+            sceneImages.forEach(img => {
+                img.classList.remove('active');
+            });
+            
+            // 显示当前场景图片
+            document.getElementById(`scene${sceneNumber}`).classList.add('active');
+            
+            // 更新天数
+            dayNumberElement.textContent = gameState.days[sceneNumber - 1];
+            
+            // 更新服务器状态
+            serverStatusElement.textContent = gameState.serverStatus[sceneNumber - 1];
+            
+            // 更新场景描述
+            sceneDescriptionElement.textContent = gameState.descriptions[sceneNumber - 1];
+        }
+
+        // 切换到下一个场景
+        function nextScene() {
+            let nextScene = gameState.currentScene + 1;
+            if (nextScene > gameState.totalScenes) {
+                nextScene = 1; // 循环回到第一个场景
+            }
+            switchScene(nextScene);
+        }
+
+        // 按钮点击事件
+        nextDayBtn.addEventListener('click', nextScene);
+
+        // 初始化游戏
+        function initGame() {
+            // 设置初始场景
+            switchScene(1);
+            
+            // 添加键盘支持（左右箭头键切换场景）
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'ArrowRight' || event.key === ' ' || event.key === 'Enter') {
+                    nextScene();
+                } else if (event.key === 'ArrowLeft') {
+                    let prevScene = gameState.currentScene - 1;
+                    if (prevScene < 1) {
+                        prevScene = gameState.totalScenes;
+                    }
+                    switchScene(prevScene);
+                }
+            });
+        }
+
+        // 页面加载完成后初始化游戏
+        document.addEventListener('DOMContentLoaded', initGame);
+    </script>
+</body>
+</html>
