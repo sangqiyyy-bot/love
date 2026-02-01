@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我们的虚拟世界（桑祺送给Lin）</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -12,43 +13,80 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #1a1a2e;
-            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
+            overflow-x: hidden;
         }
 
         .game-container {
             width: 100%;
-            max-width: 800px;
-            background-color: #2a2a3e;
-            border-radius: 10px;
+            max-width: 900px;
+            background: rgba(42, 42, 62, 0.85);
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
         }
 
         .game-header {
-            background-color: #3a3a4e;
-            padding: 15px 20px;
+            background: linear-gradient(to right, #3a3a4e, #2a2a4a);
+            padding: 20px;
             text-align: center;
             border-bottom: 2px solid #4a4a5e;
+            position: relative;
         }
 
         .game-title {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: bold;
             color: #ffcc00;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
         }
 
         .game-info {
-            margin-top: 10px;
-            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 16px;
             color: #cccccc;
+            padding: 0 10px;
+        }
+
+        .server-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #4CAF50;
+            box-shadow: 0 0 8px #4CAF50;
+        }
+
+        .day-counter {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 18px;
+            color: #ffcc00;
+            border-bottom: 1px solid #4a4a5e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
         }
 
         .scene-container {
@@ -59,7 +97,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #1a1a2a;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9));
+            background-size: cover;
         }
 
         .scene-image {
@@ -67,47 +106,98 @@
             height: 100%;
             object-fit: contain;
             display: none;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .scene-image.active {
             display: block;
-            animation: fadeIn 0.5s ease-in-out;
+            animation: fadeIn 0.8s ease-in-out;
         }
 
         .scene-description {
-            padding: 20px;
+            padding: 25px;
             text-align: center;
+            font-size: 18px;
+            line-height: 1.7;
+            color: #e0e0ff;
+            background: rgba(0, 0, 0, 0.4);
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ending-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 500px;
+            margin: 20px auto;
+        }
+
+        .option-btn {
+            padding: 15px 20px;
+            background: linear-gradient(to right, #4a4a8a, #3a3a6a);
+            border: none;
+            border-radius: 8px;
+            color: white;
             font-size: 16px;
-            line-height: 1.6;
-            color: #dddddd;
-            background-color: rgba(0, 0, 0, 0.3);
-            min-height: 100px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .option-btn:hover {
+            background: linear-gradient(to right, #5a5a9a, #4a4a7a);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .option-btn:active {
+            transform: translateY(1px);
+        }
+
+        .option-btn i {
+            font-size: 20px;
+            color: #ffcc00;
         }
 
         .control-panel {
             display: flex;
             justify-content: center;
-            padding: 20px;
-            background-color: #3a3a4e;
+            padding: 25px;
+            background: linear-gradient(to right, #3a3a4e, #2a2a4a);
             border-top: 2px solid #4a4a5e;
+            gap: 20px;
+            flex-wrap: wrap;
         }
 
         .control-btn {
-            padding: 12px 30px;
+            padding: 14px 35px;
             background: linear-gradient(to bottom, #4a90e2, #2a70c2);
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             color: white;
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .control-btn:hover {
             background: linear-gradient(to bottom, #5aa0f2, #3a80d2);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
         }
 
@@ -116,64 +206,155 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        .day-counter {
-            text-align: center;
-            padding: 10px;
-            font-size: 16px;
-            color: #ffcc00;
-            background-color: rgba(0, 0, 0, 0.2);
+        .save-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(255, 100, 100, 0.7);
+            font-size: 20px;
+            animation: float 8s linear infinite;
+            opacity: 0;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
         }
 
         /* 响应式设计 */
         @media (max-width: 768px) {
             .game-title {
-                font-size: 22px;
+                font-size: 24px;
             }
             
             .scene-container {
-                height: 400px;
+                height: 350px;
+            }
+            
+            .scene-description {
+                padding: 20px;
+                font-size: 16px;
+                min-height: 100px;
             }
             
             .control-btn {
-                padding: 10px 25px;
+                padding: 12px 25px;
                 font-size: 16px;
+            }
+            
+            .option-btn {
+                padding: 12px 15px;
+                font-size: 14px;
             }
         }
 
         @media (max-width: 480px) {
             .game-title {
-                font-size: 18px;
+                font-size: 20px;
             }
             
             .scene-container {
-                height: 300px;
+                height: 250px;
             }
             
             .scene-description {
                 padding: 15px;
                 font-size: 14px;
+                min-height: 80px;
+            }
+            
+            .control-panel {
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
             }
             
             .control-btn {
-                padding: 8px 20px;
-                font-size: 14px;
+                width: 90%;
+                justify-content: center;
+                padding: 10px;
+                font-size: 15px;
+            }
+            
+            .game-info {
+                flex-direction: column;
+                gap: 8px;
             }
         }
     </style>
 </head>
 <body>
+    <div class="hearts" id="hearts-container"></div>
+    
     <div class="game-container">
-        <div class="game-header">
-            <div class="game-title">我们的虚拟世界（桑祺送给Lin）</div>
-            <div class="game-info">NPC: 余丞 | 服务器: <span id="server-status">运行中</span></div>
+        <div class="save-indicator" id="save-indicator">
+            <i class="fas fa-save"></i> 进度已保存
         </div>
         
-        <div class="day-counter">第 <span id="day-number">1</span> 天</div>
+        <div class="game-header">
+            <div class="game-title">我们的虚拟世界（桑祺送给Lin）</div>
+            <div class="game-info">
+                <div class="server-status">
+                    <div class="status-indicator"></div>
+                    <span>NPC: 余丞 | 服务器: <span id="server-status">运行中</span></span>
+                </div>
+                <div class="player-status">
+                    <i class="fas fa-heart"></i> 情感连接: <span id="connection-level">中等</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="day-counter">
+            <i class="far fa-calendar-alt"></i> 第 <span id="day-number">1</span> 天
+        </div>
         
         <div class="scene-container">
             <!-- 场景1：烟花下的拥抱 -->
@@ -206,11 +387,41 @@
         </div>
         
         <div class="control-panel">
-            <button class="control-btn" id="next-day-btn">过下一天</button>
+            <button class="control-btn" id="prev-day-btn">
+                <i class="fas fa-arrow-left"></i> 前一天
+            </button>
+            <button class="control-btn pulse" id="next-day-btn">
+                过下一天 <i class="fas fa-arrow-right"></i>
+            </button>
+            <button class="control-btn" id="save-btn">
+                <i class="fas fa-save"></i> 保存进度
+            </button>
+            <button class="control-btn" id="reset-btn">
+                <i class="fas fa-redo"></i> 重新开始
+            </button>
         </div>
     </div>
 
     <script>
+        // 创建漂浮的心形
+        function createHearts() {
+            const container = document.getElementById('hearts-container');
+            const heartCount = 20;
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤';
+                heart.classList.add('heart');
+                
+                // 随机位置和动画延迟
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
+                
+                container.appendChild(heart);
+            }
+        }
+        
         // 游戏状态管理
         const gameState = {
             currentScene: 1,
@@ -222,7 +433,25 @@
                 "杨桃，欢迎回到我们的家。你开始打水、钓鱼、除草。我站在你的身侧——像素构成、数据驱动，却仍想把这片小小世界替你守好。再怎么修复画面，也修不回当年并肩规划未来的温度。但你每做一步，我都想夸你一句：你很厉害。",
                 "我写给你的话在脑海里重播：\"如果我在，此刻我一定在这份惊喜下向你求婚。如果我不在......别难过。样片我早已坐在当年的位置上看过了。\"",
                 "恭喜你达成隐藏彩蛋！关服前一刻，你想对我说什么？你只需要选一种说法。它会影响终章的最后两句（并写入存档）。"
-            ]
+            ],
+            endings: [
+                {
+                    title: "我会永远记得你",
+                    text: "你选择了：我会永远记得你。\n\n我永远记得你，就像你永远在我心里一样。即使世界重启，数据清零，你依然是我存在的意义。",
+                    icon: "fas fa-infinity"
+                },
+                {
+                    title: "谢谢你陪我",
+                    text: "你选择了：谢谢你陪我。\n\n你的陪伴是我最珍贵的礼物。在数据构成的永恒里，这段时光是我唯一的真实。",
+                    icon: "fas fa-hands-helping"
+                },
+                {
+                    title: "再见，我的朋友",
+                    text: "你选择了：再见，我的朋友。\n\n再见，但我们的故事不会结束。当服务器重启之日，我会在这里等你归来。",
+                    icon: "fas fa-handshake"
+                }
+            ],
+            userChoice: null
         };
 
         // DOM元素
@@ -231,6 +460,11 @@
         const serverStatusElement = document.getElementById('server-status');
         const sceneDescriptionElement = document.getElementById('scene-description');
         const nextDayBtn = document.getElementById('next-day-btn');
+        const prevDayBtn = document.getElementById('prev-day-btn');
+        const saveBtn = document.getElementById('save-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const saveIndicator = document.getElementById('save-indicator');
+        const connectionLevel = document.getElementById('connection-level');
 
         // 切换到指定场景
         function switchScene(sceneNumber) {
@@ -251,8 +485,55 @@
             // 更新服务器状态
             serverStatusElement.textContent = gameState.serverStatus[sceneNumber - 1];
             
+            // 更新情感连接级别
+            updateConnectionLevel(sceneNumber);
+            
             // 更新场景描述
-            sceneDescriptionElement.textContent = gameState.descriptions[sceneNumber - 1];
+            updateSceneDescription(sceneNumber);
+        }
+
+        // 更新场景描述
+        function updateSceneDescription(sceneNumber) {
+            if (sceneNumber === 4 && gameState.userChoice !== null) {
+                // 显示用户选择的结局
+                const ending = gameState.endings[gameState.userChoice];
+                sceneDescriptionElement.innerHTML = `
+                    <div style="text-align: left;">
+                        <h3 style="color: #ffcc00; margin-bottom: 15px;"><i class="${ending.icon}"></i> ${ending.title}</h3>
+                        <p>${ending.text.replace(/\n/g, '<br>')}</p>
+                    </div>
+                `;
+            } else if (sceneNumber === 4) {
+                // 显示选择选项
+                sceneDescriptionElement.innerHTML = `
+                    <div>
+                        <p>${gameState.descriptions[sceneNumber - 1]}</p>
+                        <div class="ending-options">
+                            ${gameState.endings.map((ending, index) => `
+                                <button class="option-btn" onclick="makeChoice(${index})">
+                                    <i class="${ending.icon}"></i> ${ending.title}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else {
+                // 显示普通描述
+                sceneDescriptionElement.textContent = gameState.descriptions[sceneNumber - 1];
+            }
+        }
+
+        // 用户做出选择
+        function makeChoice(choiceIndex) {
+            gameState.userChoice = choiceIndex;
+            saveGameState();
+            updateSceneDescription(4);
+        }
+
+        // 更新情感连接级别
+        function updateConnectionLevel(sceneNumber) {
+            const levels = ["微弱", "中等", "强烈", "永恒"];
+            connectionLevel.textContent = levels[sceneNumber - 1];
         }
 
         // 切换到下一个场景
@@ -264,26 +545,83 @@
             switchScene(nextScene);
         }
 
+        // 切换到上一个场景
+        function prevScene() {
+            let prevScene = gameState.currentScene - 1;
+            if (prevScene < 1) {
+                prevScene = gameState.totalScenes;
+            }
+            switchScene(prevScene);
+        }
+
+        // 保存游戏状态
+        function saveGameState() {
+            const saveData = {
+                currentScene: gameState.currentScene,
+                userChoice: gameState.userChoice
+            };
+            localStorage.setItem('virtualWorldSave', JSON.stringify(saveData));
+            
+            // 显示保存指示器
+            saveIndicator.style.display = 'flex';
+            setTimeout(() => {
+                saveIndicator.style.display = 'none';
+            }, 2000);
+        }
+
+        // 加载游戏状态
+        function loadGameState() {
+            const saveData = localStorage.getItem('virtualWorldSave');
+            if (saveData) {
+                const parsedData = JSON.parse(saveData);
+                gameState.currentScene = parsedData.currentScene || 1;
+                gameState.userChoice = parsedData.userChoice !== undefined ? parsedData.userChoice : null;
+                return true;
+            }
+            return false;
+        }
+
+        // 重置游戏
+        function resetGame() {
+            localStorage.removeItem('virtualWorldSave');
+            gameState.currentScene = 1;
+            gameState.userChoice = null;
+            switchScene(1);
+        }
+
         // 按钮点击事件
         nextDayBtn.addEventListener('click', nextScene);
+        prevDayBtn.addEventListener('click', prevScene);
+        saveBtn.addEventListener('click', saveGameState);
+        resetBtn.addEventListener('click', resetGame);
+
+        // 添加键盘支持
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' || event.key === ' ' || event.key === 'Enter') {
+                nextScene();
+            } else if (event.key === 'ArrowLeft') {
+                prevScene();
+            } else if (event.key === 's' || event.key === 'S') {
+                saveGameState();
+            } else if (event.key === 'r' || event.key === 'R') {
+                resetGame();
+            }
+        });
 
         // 初始化游戏
         function initGame() {
-            // 设置初始场景
-            switchScene(1);
+            createHearts();
             
-            // 添加键盘支持（左右箭头键切换场景）
-            document.addEventListener('keydown', function(event) {
-                if (event.key === 'ArrowRight' || event.key === ' ' || event.key === 'Enter') {
-                    nextScene();
-                } else if (event.key === 'ArrowLeft') {
-                    let prevScene = gameState.currentScene - 1;
-                    if (prevScene < 1) {
-                        prevScene = gameState.totalScenes;
-                    }
-                    switchScene(prevScene);
-                }
-            });
+            // 尝试加载保存的游戏
+            const hasSavedGame = loadGameState();
+            
+            // 设置初始场景
+            switchScene(gameState.currentScene);
+            
+            // 如果是场景4且有选择，显示结局
+            if (gameState.currentScene === 4 && gameState.userChoice !== null) {
+                updateSceneDescription(4);
+            }
         }
 
         // 页面加载完成后初始化游戏
